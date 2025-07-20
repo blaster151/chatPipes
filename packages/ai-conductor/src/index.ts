@@ -26,6 +26,9 @@ export { MemoryManager, MotifTracker, type MemoryItem, type Motif } from './memo
 // Memory compression system
 export { MemoryCompressor, type CompressedMemory, type MemoryCompressionConfig } from './memory/MemoryCompressor';
 
+// Memory capping system
+export { MemoryCapper, type MemoryBlob, type MemoryCapperConfig } from './memory/MemoryCapper';
+
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 

@@ -1,5 +1,6 @@
 import { DualUtterance } from '../simulation/types/DialogueTypes';
 import { MemoryCompressor, CompressedMemory, MemoryCompressionConfig } from './MemoryCompressor';
+import { MemoryCapper, MemoryBlob, MemoryCapperConfig } from './MemoryCapper';
 
 export interface MemoryItem {
   agentId?: string; // who it's about (optional = ambient or global)
@@ -191,11 +192,17 @@ export class MemoryManager {
   private memories: MemoryItem[] = [];
   private motifs: MotifTracker = new MotifTracker();
   private compressor: MemoryCompressor;
+  private capper: MemoryCapper;
   private compressedMemories: CompressedMemory[] = [];
   private lastCompressionTime: number = 0;
+  private lastCappingTime: number = 0;
 
-  constructor(compressionConfig?: Partial<MemoryCompressionConfig>) {
+  constructor(
+    compressionConfig?: Partial<MemoryCompressionConfig>,
+    cappingConfig?: Partial<MemoryCapperConfig>
+  ) {
     this.compressor = new MemoryCompressor(compressionConfig);
+    this.capper = new MemoryCapper(cappingConfig);
   }
 
   /**
@@ -214,6 +221,9 @@ export class MemoryManager {
     // Check if compression is needed
     this.checkAndRunCompression();
     
+    // Check if capping is needed
+    this.checkAndRunCapping();
+    
     // Clean up old memories (keep last 100)
     if (this.memories.length > 100) {
       this.memories = this.memories.slice(-100);
@@ -224,7 +234,15 @@ export class MemoryManager {
    * Get memory summary for an agent
    */
   getMemorySummary(agentId?: string): string {
-    // Use compressed memories if available, otherwise use raw memories
+    // Try to get from memory blob first
+    if (agentId) {
+      const blob = this.capper.getMemoryBlob(agentId);
+      if (blob) {
+        return this.generateSummaryFromBlob(blob);
+      }
+    }
+
+    // Fall back to compressed memories or raw memories
     const memoriesToUse = this.compressedMemories.length > 0 ? 
       this.compressedMemories.filter(m => !agentId || m.agentId === agentId) :
       this.memories.filter(m => !agentId || m.agentId === agentId);
@@ -259,6 +277,52 @@ export class MemoryManager {
     if (emotions.length > 0) {
       const emotionContent = emotions.map(e => e.content.substring(0, 30)).join(', ');
       summary.push(`Emotions: ${emotionContent}`);
+    }
+    
+    return summary.join('. ') + '.';
+  }
+
+  /**
+   * Generate summary from memory blob
+   */
+  private generateSummaryFromBlob(blob: MemoryBlob): string {
+    const summary: string[] = [];
+    
+    // Add persona summary
+    if (blob.personaSummary) {
+      summary.push(`Persona: ${blob.personaSummary}`);
+    }
+    
+    // Add recent memories summary
+    if (blob.recentMemories.length > 0) {
+      const facts = blob.recentMemories.filter(m => m.type === 'fact');
+      const jokes = blob.recentMemories.filter(m => m.type === 'joke');
+      const suspicions = blob.recentMemories.filter(m => m.type === 'suspicion');
+      
+      if (facts.length > 0) {
+        const factContent = facts.map(f => f.content.substring(0, 25)).join(', ');
+        summary.push(`Recent facts: ${factContent}`);
+      }
+      
+      if (jokes.length > 0) {
+        const jokeContent = jokes.map(j => j.content.substring(0, 25)).join(', ');
+        summary.push(`Recent jokes: ${jokeContent}`);
+      }
+      
+      if (suspicions.length > 0) {
+        const suspicionContent = suspicions.map(s => s.content.substring(0, 25)).join(', ');
+        summary.push(`Recent suspicions: ${suspicionContent}`);
+      }
+    }
+    
+    // Add motif summary
+    const motifs = Object.values(blob.motifs);
+    if (motifs.length > 0) {
+      const topMotifs = motifs
+        .sort((a, b) => b.timesUsed - a.timesUsed)
+        .slice(0, 3)
+        .map(m => `"${m.phrase.substring(0, 20)}" (${m.timesUsed}x)`);
+      summary.push(`Key motifs: ${topMotifs.join(', ')}`);
     }
     
     return summary.join('. ') + '.';
@@ -306,6 +370,42 @@ export class MemoryManager {
       this.compressedMemories = this.compressor.compressMemories(this.memories);
       this.lastCompressionTime = now;
     }
+  }
+
+  /**
+   * Check and run capping if needed
+   */
+  private checkAndRunCapping(): void {
+    const now = Date.now();
+    const timeSinceLastCapping = now - this.lastCappingTime;
+    
+    // Run capping every 5 minutes or when we have many memories
+    if (timeSinceLastCapping > 5 * 60 * 1000 || this.memories.length > 100) {
+      this.runCappingForAllAgents();
+      this.lastCappingTime = now;
+    }
+  }
+
+  /**
+   * Run capping for all agents
+   */
+  private runCappingForAllAgents(): void {
+    // Get unique agent IDs
+    const agentIds = new Set<string>();
+    this.memories.forEach(memory => {
+      if (memory.agentId) {
+        agentIds.add(memory.agentId);
+      }
+    });
+
+    // Create memory blobs for each agent
+    agentIds.forEach(agentId => {
+      const agentMemories = this.memories.filter(m => m.agentId === agentId);
+      const motifs = this.motifs.getMotifs();
+      const styleVector = this.compressor.getStyleVector(agentId);
+      
+      this.capper.createMemoryBlob(agentId, agentMemories, motifs, styleVector);
+    });
   }
 
   /**
@@ -460,6 +560,20 @@ export class MemoryManager {
   }
 
   /**
+   * Get memory blob for agent
+   */
+  getMemoryBlob(agentId: string): MemoryBlob | undefined {
+    return this.capper.getMemoryBlob(agentId);
+  }
+
+  /**
+   * Get all memory blobs
+   */
+  getAllMemoryBlobs(): Map<string, MemoryBlob> {
+    return this.capper.getAllMemoryBlobs();
+  }
+
+  /**
    * Get memories by type
    */
   getMemoriesByType(type: MemoryItem['type']): MemoryItem[] {
@@ -508,6 +622,7 @@ export class MemoryManager {
     const emergentMotifs = this.motifs.getEmergentMotifs().length;
     
     const compressionStats = this.compressor.getCompressionStats();
+    const cappingStats = this.capper.getCompressionStats();
     
     return {
       totalMemories,
@@ -516,8 +631,11 @@ export class MemoryManager {
       emergentMotifs,
       averageConfidence: this.memories.reduce((sum, m) => sum + m.confidence, 0) / totalMemories || 0,
       compressionStats,
+      cappingStats,
       compressedMemoriesCount: this.compressedMemories.length,
-      compressionRatio: compressionStats.averageCompressionRatio
+      compressionRatio: compressionStats.averageCompressionRatio,
+      memoryBlobsCount: cappingStats.totalAgents,
+      averageBlobSize: cappingStats.averageSizePerAgent
     };
   }
 
@@ -529,5 +647,6 @@ export class MemoryManager {
     this.compressedMemories = [];
     this.motifs = new MotifTracker();
     this.compressor.clear();
+    this.capper.clear();
   }
 } 
