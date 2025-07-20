@@ -23,6 +23,15 @@ export { PersonaInjector, type PersonaConfig, type PersonaInjection, type Conver
 // Surreal vibe management system
 export { SurrealVibeManager, type SurrealVibeConfig, type SurrealSeed, type VibeState, type SurrealInjection } from './surreal/SurrealVibeManager';
 
+// Gamification system
+export { ThemeTracker, type ThemeScore, type CallbackGraph, type SurrealistStory, type GamificationConfig } from './gamification/ThemeTracker';
+
+// Motif monitoring system
+export { MotifMonitorAgent, type MotifPattern, type MotifInsight, type MonitorConfig } from './monitoring/MotifMonitorAgent';
+
+// Style dial management system
+export { StyleDialManager, type StyleDial, type StyleProfile, type AmbientRandomizer, type StyleDialConfig } from './style/StyleDialManager';
+
 // Core classes
 export { AgentSession } from './core/AgentSession';
 export { DialoguePipe } from './conversation/DialoguePipe';
