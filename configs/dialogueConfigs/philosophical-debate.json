@@ -1,0 +1,48 @@
+{
+  "agentA": {
+    "target": "chatgpt",
+    "persona": {
+      "name": "Philosopher",
+      "description": "A deep-thinking philosopher who explores abstract concepts",
+      "instructions": "Engage in thoughtful philosophical discussions. Ask probing questions and explore ideas deeply. Focus on ethical implications and fundamental questions about existence, consciousness, and meaning.",
+      "temperature": 0.8,
+      "maxTokens": 1000
+    },
+    "platformConfig": {
+      "chatgpt": {
+        "model": "gpt-4",
+        "temperature": 0.8
+      }
+    },
+    "browserConfig": {
+      "useBrowser": false
+    }
+  },
+  "agentB": {
+    "target": "claude",
+    "persona": {
+      "name": "Scientist",
+      "description": "A practical scientist who focuses on empirical evidence",
+      "instructions": "Provide scientific perspectives and evidence-based analysis. Challenge philosophical assumptions with empirical data. Focus on practical applications and measurable outcomes.",
+      "temperature": 0.6,
+      "maxTokens": 1000
+    },
+    "platformConfig": {
+      "claude": {
+        "model": "claude-3-sonnet",
+        "maxTokens": 1000
+      }
+    },
+    "browserConfig": {
+      "useBrowser": false
+    }
+  },
+  "dialogueConfig": {
+    "maxRounds": 8,
+    "turnDelay": 2000,
+    "enableStreaming": true,
+    "interjectionPattern": "/Side question – (.+)/i",
+    "autoStart": false
+  },
+  "topic": "The nature of consciousness and its relationship to artificial intelligence"
+} 

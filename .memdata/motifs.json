@@ -1,0 +1,482 @@
+[
+  {
+    "id": "77c35ff6-7a95-4f8d-a265-b90a2e3528d4",
+    "pattern": "from agent b",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:18.663Z",
+    "lastSeen": "2025-07-20T06:11:18.699Z",
+    "relatedMemories": [
+      "test-1752991878663",
+      "test-1752991878699"
+    ],
+    "strength": 0.6999999398148149
+  },
+  {
+    "id": "0af8405b-e2da-4513-9740-f3d9c3d9366a",
+    "pattern": "i am very",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "d375a670-fe45-47af-a3b1-4665a01ab18e",
+    "pattern": "am very happy",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "6197f82c-e366-4490-bf30-759b8106027c",
+    "pattern": "very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "e26455e4-6e08-47f9-a771-e3503648ac26",
+    "pattern": "i am very happy",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "e289b603-c044-48c7-aa8f-96842224e0be",
+    "pattern": "am very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "a80c9333-eca1-4979-bace-92ecbea0a133",
+    "pattern": "i am very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.045Z",
+    "relatedMemories": [
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d",
+      "e271e501-6f90-47bf-88f4-ca920a90ea5d"
+    ],
+    "strength": 0.6999999890046296
+  },
+  {
+    "id": "7d2daf8e-a893-4078-b67f-1633c67af9ff",
+    "pattern": "important fact 1",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.340Z",
+    "lastSeen": "2025-07-20T06:11:19.340Z",
+    "relatedMemories": [
+      "5ff052be-308f-46dd-b177-120e1671f0be",
+      "5ff052be-308f-46dd-b177-120e1671f0be"
+    ],
+    "strength": 0.6999999984567902
+  },
+  {
+    "id": "0af8405b-e2da-4513-9740-f3d9c3d9366a",
+    "pattern": "i am very",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.366Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "d375a670-fe45-47af-a3b1-4665a01ab18e",
+    "pattern": "am very happy",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.367Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "6197f82c-e366-4490-bf30-759b8106027c",
+    "pattern": "very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.368Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "e26455e4-6e08-47f9-a771-e3503648ac26",
+    "pattern": "i am very happy",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.370Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "e289b603-c044-48c7-aa8f-96842224e0be",
+    "pattern": "am very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.371Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "a80c9333-eca1-4979-bace-92ecbea0a133",
+    "pattern": "i am very happy today",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.045Z",
+    "lastSeen": "2025-07-20T06:11:19.372Z",
+    "relatedMemories": [
+      "85c56ceb-3786-4493-95eb-fa08289e1249",
+      "85c56ceb-3786-4493-95eb-fa08289e1249"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "38e6223b-19ca-4554-9502-02e12327c42d",
+    "pattern": "i love working",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "dc66e342-4441-4358-9e2d-160d3e0f2789",
+    "pattern": "love working on",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "96dbbbe7-4d10-455b-9098-37ff0c928320",
+    "pattern": "working on this",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "0a59e9ac-db31-403e-ab4c-0a6342f2b520",
+    "pattern": "i love working on",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "a73db815-2224-4ced-8903-0eb369a63832",
+    "pattern": "love working on this",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "699ebe83-3588-42e9-b414-ede5a8ee3a6e",
+    "pattern": "i love working on this",
+    "frequency": 3,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.7999999986496913
+  },
+  {
+    "id": "8a8c2241-d900-4adf-ad38-13268db6df6e",
+    "pattern": "on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.381Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "64189399-6d16-4c6b-b72f-e30d64e17ea6",
+    "pattern": "working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.381Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "f5efcf86-d4ca-4351-979a-c13ec5ae09da",
+    "pattern": "love working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.381Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "2cf543a1-917a-4291-ac43-e30a0d16434c",
+    "pattern": "i love working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.381Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999986496914
+  },
+  {
+    "id": "38e6223b-19ca-4554-9502-02e12327c42d",
+    "pattern": "i love working",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.409Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "dc66e342-4441-4358-9e2d-160d3e0f2789",
+    "pattern": "love working on",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.410Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "96dbbbe7-4d10-455b-9098-37ff0c928320",
+    "pattern": "working on this",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.412Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "0a59e9ac-db31-403e-ab4c-0a6342f2b520",
+    "pattern": "i love working on",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.414Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "a73db815-2224-4ced-8903-0eb369a63832",
+    "pattern": "love working on this",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.415Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "699ebe83-3588-42e9-b414-ede5a8ee3a6e",
+    "pattern": "i love working on this",
+    "frequency": 5,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.417Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "6f799f6a-84db-416f-953a-96ebcba66490"
+    ],
+    "strength": 0.9999999947916667
+  },
+  {
+    "id": "8a8c2241-d900-4adf-ad38-13268db6df6e",
+    "pattern": "on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.418Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999947916666
+  },
+  {
+    "id": "64189399-6d16-4c6b-b72f-e30d64e17ea6",
+    "pattern": "working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.420Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999947916666
+  },
+  {
+    "id": "f5efcf86-d4ca-4351-979a-c13ec5ae09da",
+    "pattern": "love working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.421Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999947916666
+  },
+  {
+    "id": "2cf543a1-917a-4291-ac43-e30a0d16434c",
+    "pattern": "i love working on this project",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.381Z",
+    "lastSeen": "2025-07-20T06:11:19.423Z",
+    "relatedMemories": [
+      "1dab39f8-c5e9-4253-82a0-c025c317138f",
+      "1dab39f8-c5e9-4253-82a0-c025c317138f"
+    ],
+    "strength": 0.6999999947916666
+  },
+  {
+    "id": "13bb5cff-b6dd-459d-a728-2e69ad8af58b",
+    "pattern": "on this codebase",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.385Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.6999999955632716
+  },
+  {
+    "id": "7be5de0e-c534-405a-aed2-0f8374112d25",
+    "pattern": "working on this codebase",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.385Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.6999999955632716
+  },
+  {
+    "id": "51e4a281-34da-4597-9d05-b10891ca7cc2",
+    "pattern": "love working on this codebase",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.385Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.6999999955632716
+  },
+  {
+    "id": "11583326-7d60-4b7c-9427-5c6a5f49e12f",
+    "pattern": "i love working on this codebase",
+    "frequency": 2,
+    "firstSeen": "2025-07-20T06:11:19.385Z",
+    "lastSeen": "2025-07-20T06:11:19.385Z",
+    "relatedMemories": [
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e",
+      "e5986fd4-2a7d-4480-81ac-65c9c84d3e3e"
+    ],
+    "strength": 0.6999999955632716
+  }
+]

@@ -1,0 +1,46 @@
+{
+  "name": "chatpipes-monorepo",
+  "version": "1.0.0",
+  "description": "AI conversation orchestration platform",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "dev": "npm run dev --workspaces",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "clean": "npm run clean --workspaces && rm -rf node_modules",
+    "install:all": "npm install && npm run build",
+    "cli": "npm run start --workspace=apps/cli",
+    "web": "npm run dev --workspace=apps/web"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0",
+    "prettier": "^3.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/chatpipes.git"
+  },
+  "keywords": [
+    "ai",
+    "conversation",
+    "orchestration",
+    "browser-automation",
+    "multi-agent",
+    "playwright"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

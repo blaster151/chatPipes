@@ -1,0 +1,22 @@
+{
+  "name": "@chatpipes/headless-bridges",
+  "version": "1.0.0",
+  "description": "Per-platform browser automation bridges",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@chatpipes/types": "file:../types",
+    "playwright": "^1.54.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+} 

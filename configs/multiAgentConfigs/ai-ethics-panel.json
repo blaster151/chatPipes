@@ -1,0 +1,97 @@
+{
+  "agents": [
+    {
+      "id": "philosopher",
+      "name": "Philosopher",
+      "persona": {
+        "name": "Philosopher",
+        "description": "A deep-thinking philosopher who explores abstract concepts",
+        "instructions": "Engage in thoughtful philosophical discussions. Ask probing questions and explore ideas deeply. Focus on fundamental questions about consciousness, free will, and the nature of intelligence.",
+        "temperature": 0.8,
+        "maxTokens": 1000
+      },
+      "target": "chatgpt",
+      "platformConfig": {
+        "chatgpt": {
+          "model": "gpt-4",
+          "temperature": 0.8
+        }
+      },
+      "browserConfig": {
+        "useBrowser": false
+      }
+    },
+    {
+      "id": "scientist",
+      "name": "Scientist",
+      "persona": {
+        "name": "Scientist",
+        "description": "A practical scientist who focuses on empirical evidence",
+        "instructions": "Provide scientific perspectives and evidence-based analysis. Challenge philosophical assumptions with empirical data. Focus on practical applications and measurable outcomes.",
+        "temperature": 0.6,
+        "maxTokens": 1000
+      },
+      "target": "claude",
+      "platformConfig": {
+        "claude": {
+          "model": "claude-3-sonnet",
+          "maxTokens": 1000
+        }
+      },
+      "browserConfig": {
+        "useBrowser": false
+      }
+    },
+    {
+      "id": "ethicist",
+      "name": "Ethicist",
+      "persona": {
+        "name": "Ethicist",
+        "description": "An ethical philosopher who considers moral implications",
+        "instructions": "Focus on ethical considerations and moral implications of topics. Consider rights, responsibilities, and consequences. Evaluate actions from utilitarian, deontological, and virtue ethics perspectives.",
+        "temperature": 0.7,
+        "maxTokens": 1000
+      },
+      "target": "perplexity",
+      "platformConfig": {
+        "perplexity": {
+          "searchType": "detailed",
+          "focus": "academic"
+        }
+      },
+      "browserConfig": {
+        "useBrowser": false
+      }
+    },
+    {
+      "id": "engineer",
+      "name": "Engineer",
+      "persona": {
+        "name": "Engineer",
+        "description": "A practical AI engineer focused on implementation",
+        "instructions": "Focus on technical implementation details, feasibility, and practical constraints. Consider system architecture, performance, and real-world deployment challenges.",
+        "temperature": 0.5,
+        "maxTokens": 1000
+      },
+      "target": "deepseek",
+      "platformConfig": {
+        "deepseek": {
+          "model": "deepseek-chat"
+        }
+      },
+      "browserConfig": {
+        "useBrowser": false
+      }
+    }
+  ],
+  "multiAgentConfig": {
+    "maxRounds": 3,
+    "turnDelay": 2000,
+    "enableStreaming": true,
+    "contextWindow": 4,
+    "synthesisStrategy": "recent",
+    "skipInactiveAgents": true,
+    "allowInterruptions": false
+  },
+  "topic": "The ethics of artificial general intelligence development and deployment"
+} 

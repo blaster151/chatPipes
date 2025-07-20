@@ -1,0 +1,28 @@
+{
+  "name": "@chatpipes/ai-conductor",
+  "version": "1.0.0",
+  "description": "Core AI conversation orchestration library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist",
+    "test": "vitest",
+    "test:run": "vitest run"
+  },
+  "dependencies": {
+    "@chatpipes/types": "file:../types",
+    "@chatpipes/headless-bridges": "file:../headless-bridges",
+    "commander": "^12.0.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "vitest": "^3.2.4",
+    "@types/uuid": "^10.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+} 
