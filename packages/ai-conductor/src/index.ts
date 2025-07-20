@@ -20,6 +20,9 @@ export { SharedMemoryManager, type SharedMemory, type CallbackTrigger, type Runn
 // Cooperative memory system
 export { CooperativeMemoryManager, type CooperativeMemory, type MemoryReinjection, type CooperativeMemoryConfig } from './memory/CooperativeMemoryManager';
 
+// Streamlined memory manager prototype
+export { MemoryManager, MotifTracker, type MemoryItem, type Motif } from './memory/MemoryManager';
+
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 
