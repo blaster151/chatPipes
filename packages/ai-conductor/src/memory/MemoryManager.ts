@@ -1,6 +1,7 @@
 import { DualUtterance } from '../simulation/types/DialogueTypes';
 import { MemoryCompressor, CompressedMemory, MemoryCompressionConfig } from './MemoryCompressor';
 import { MemoryCapper, MemoryBlob, MemoryCapperConfig } from './MemoryCapper';
+import { MemoryUtils, CompactMemoryData } from './MemoryUtils';
 
 export interface MemoryItem {
   agentId?: string; // who it's about (optional = ambient or global)
@@ -79,6 +80,20 @@ export class MotifTracker {
     return Object.values(this.motifs)
       .filter(motif => motif.mood === mood)
       .sort((a, b) => b.timesUsed - a.timesUsed);
+  }
+
+  /**
+   * Prune motifs (keep only frequently used or recent ones)
+   */
+  pruneMotifs(hoursThreshold: number = 24): void {
+    this.motifs = MemoryUtils.pruneMotifs(this.motifs, hoursThreshold);
+  }
+
+  /**
+   * Get pruned motifs with metadata
+   */
+  getPrunedMotifsWithMetadata(hoursThreshold: number = 24) {
+    return MemoryUtils.getPrunedMotifsWithMetadata(this.motifs, hoursThreshold);
   }
 
   /**
@@ -356,6 +371,92 @@ export class MemoryManager {
     };
     
     this.memories.push(memoryItem);
+  }
+
+  /**
+   * 1. Compaction function - Summarize facts and replace with single summary
+   */
+  compactFacts(agentId: string): void {
+    const { compacted, summary } = MemoryUtils.compactFacts(this.memories, agentId);
+    
+    if (summary) {
+      this.memories = compacted;
+      console.log(`📝 Compacted facts for ${agentId}: ${summary}`);
+    }
+  }
+
+  /**
+   * 2. Memory Importance Ranking
+   */
+  getTopMemories(limit: number = 20): MemoryItem[] {
+    return MemoryUtils.getTopMemories(this.memories, limit);
+  }
+
+  /**
+   * Get top memories by type
+   */
+  getTopMemoriesByType(type: MemoryItem['type'], limit: number = 10): MemoryItem[] {
+    return MemoryUtils.getTopMemoriesByType(this.memories, type, limit);
+  }
+
+  /**
+   * Get top memories for specific agent
+   */
+  getTopMemoriesForAgent(agentId: string, limit: number = 15): MemoryItem[] {
+    return MemoryUtils.getTopMemoriesForAgent(this.memories, agentId, limit);
+  }
+
+  /**
+   * 3. Motif Pruning
+   */
+  pruneMotifs(hoursThreshold: number = 24): void {
+    this.motifs.pruneMotifs(hoursThreshold);
+  }
+
+  /**
+   * Get pruned motifs with metadata
+   */
+  getPrunedMotifsWithMetadata(hoursThreshold: number = 24) {
+    return this.motifs.getPrunedMotifsWithMetadata(hoursThreshold);
+  }
+
+  /**
+   * 4. Convert to Firebase-friendly compact format
+   */
+  toCompactFormat(agentId: string): CompactMemoryData | null {
+    const blob = this.capper.getMemoryBlob(agentId);
+    if (!blob) return null;
+    
+    return MemoryUtils.toCompactFormat(blob);
+  }
+
+  /**
+   * Convert from compact format
+   */
+  fromCompactFormat(data: CompactMemoryData): void {
+    const blob = MemoryUtils.fromCompactFormat(data);
+    this.capper.createMemoryBlob(data.agentId, blob.recentMemories, blob.motifs, blob.styleVector);
+  }
+
+  /**
+   * 5. Memory analysis utilities
+   */
+  analyzeMemoryDistribution() {
+    return MemoryUtils.analyzeMemoryDistribution(this.memories);
+  }
+
+  /**
+   * 6. Memory cleanup utilities
+   */
+  cleanupOldMemories(maxAgeHours: number = 24): void {
+    this.memories = MemoryUtils.cleanupOldMemories(this.memories, maxAgeHours);
+  }
+
+  /**
+   * Remove duplicate memories
+   */
+  removeDuplicateMemories(): void {
+    this.memories = MemoryUtils.removeDuplicateMemories(this.memories);
   }
 
   /**

@@ -29,6 +29,9 @@ export { MemoryCompressor, type CompressedMemory, type MemoryCompressionConfig }
 // Memory capping system
 export { MemoryCapper, type MemoryBlob, type MemoryCapperConfig } from './memory/MemoryCapper';
 
+// Memory utilities
+export { MemoryUtils, type CompactMemoryData } from './memory/MemoryUtils';
+
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 
