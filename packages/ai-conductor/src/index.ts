@@ -17,6 +17,9 @@ export { PersonalityEvolution, type PersonalityState, type EmotionalState, type 
 // Memory management system
 export { SharedMemoryManager, type SharedMemory, type CallbackTrigger, type RunningJoke, type SharedTheme, type SurrealMoment, type MemoryConfig, type MemoryInjection } from './memory/SharedMemoryManager';
 
+// Cooperative memory system
+export { CooperativeMemoryManager, type CooperativeMemory, type MemoryReinjection, type CooperativeMemoryConfig } from './memory/CooperativeMemoryManager';
+
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 
