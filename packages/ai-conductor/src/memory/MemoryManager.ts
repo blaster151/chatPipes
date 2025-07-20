@@ -1,4 +1,5 @@
 import { DualUtterance } from '../simulation/types/DialogueTypes';
+import { MemoryCompressor, CompressedMemory, MemoryCompressionConfig } from './MemoryCompressor';
 
 export interface MemoryItem {
   agentId?: string; // who it's about (optional = ambient or global)
@@ -84,7 +85,6 @@ export class MotifTracker {
    */
   private extractMotifs(text: string): Array<{ phrase: string; mood?: 'funny' | 'strange' | 'philosophical' }> {
     const motifs: Array<{ phrase: string; mood?: 'funny' | 'strange' | 'philosophical' }> = [];
-    const textLower = text.toLowerCase();
 
     // Detect jokes
     const jokePatterns = [
@@ -190,6 +190,13 @@ export class MotifTracker {
 export class MemoryManager {
   private memories: MemoryItem[] = [];
   private motifs: MotifTracker = new MotifTracker();
+  private compressor: MemoryCompressor;
+  private compressedMemories: CompressedMemory[] = [];
+  private lastCompressionTime: number = 0;
+
+  constructor(compressionConfig?: Partial<MemoryCompressionConfig>) {
+    this.compressor = new MemoryCompressor(compressionConfig);
+  }
 
   /**
    * Ingest chat messages and parse them for callbacks, tone shifts, character info
@@ -204,6 +211,9 @@ export class MemoryManager {
     // Detect motifs
     this.motifs.detect(utterance.text, utterance.agentId);
     
+    // Check if compression is needed
+    this.checkAndRunCompression();
+    
     // Clean up old memories (keep last 100)
     if (this.memories.length > 100) {
       this.memories = this.memories.slice(-100);
@@ -214,36 +224,41 @@ export class MemoryManager {
    * Get memory summary for an agent
    */
   getMemorySummary(agentId?: string): string {
-    const relevantMemories = agentId 
-      ? this.memories.filter(memory => memory.agentId === agentId)
-      : this.memories;
+    // Use compressed memories if available, otherwise use raw memories
+    const memoriesToUse = this.compressedMemories.length > 0 ? 
+      this.compressedMemories.filter(m => !agentId || m.agentId === agentId) :
+      this.memories.filter(m => !agentId || m.agentId === agentId);
     
-    if (relevantMemories.length === 0) {
+    if (memoriesToUse.length === 0) {
       return "No specific memories found.";
     }
     
     // Group by type
-    const facts = relevantMemories.filter(m => m.type === 'fact');
-    const jokes = relevantMemories.filter(m => m.type === 'joke');
-    const suspicions = relevantMemories.filter(m => m.type === 'suspicion');
-    const emotions = relevantMemories.filter(m => m.type === 'emotion');
+    const facts = memoriesToUse.filter(m => m.type === 'fact');
+    const jokes = memoriesToUse.filter(m => m.type === 'joke');
+    const suspicions = memoriesToUse.filter(m => m.type === 'suspicion');
+    const emotions = memoriesToUse.filter(m => m.type === 'emotion');
     
     const summary: string[] = [];
     
     if (facts.length > 0) {
-      summary.push(`Facts: ${facts.slice(-3).map(f => f.content.substring(0, 30)).join(', ')}`);
+      const factContent = facts.map(f => f.content.substring(0, 30)).join(', ');
+      summary.push(`Facts: ${factContent}`);
     }
     
     if (jokes.length > 0) {
-      summary.push(`Jokes: ${jokes.slice(-2).map(j => j.content.substring(0, 30)).join(', ')}`);
+      const jokeContent = jokes.map(j => j.content.substring(0, 30)).join(', ');
+      summary.push(`Jokes: ${jokeContent}`);
     }
     
     if (suspicions.length > 0) {
-      summary.push(`Suspicions: ${suspicions.slice(-2).map(s => s.content.substring(0, 30)).join(', ')}`);
+      const suspicionContent = suspicions.map(s => s.content.substring(0, 30)).join(', ');
+      summary.push(`Suspicions: ${suspicionContent}`);
     }
     
     if (emotions.length > 0) {
-      summary.push(`Emotions: ${emotions.slice(-2).map(e => e.content.substring(0, 30)).join(', ')}`);
+      const emotionContent = emotions.map(e => e.content.substring(0, 30)).join(', ');
+      summary.push(`Emotions: ${emotionContent}`);
     }
     
     return summary.join('. ') + '.';
@@ -277,6 +292,20 @@ export class MemoryManager {
     };
     
     this.memories.push(memoryItem);
+  }
+
+  /**
+   * Check and run compression if needed
+   */
+  private checkAndRunCompression(): void {
+    const now = Date.now();
+    const timeSinceLastCompression = now - this.lastCompressionTime;
+    
+    // Run compression every minute or when we have many memories
+    if (timeSinceLastCompression > 60 * 1000 || this.memories.length > 50) {
+      this.compressedMemories = this.compressor.compressMemories(this.memories);
+      this.lastCompressionTime = now;
+    }
   }
 
   /**
@@ -417,10 +446,17 @@ export class MemoryManager {
   }
 
   /**
-   * Get all memories
+   * Get all memories (raw)
    */
   getAllMemories(): MemoryItem[] {
     return this.memories;
+  }
+
+  /**
+   * Get compressed memories
+   */
+  getCompressedMemories(): CompressedMemory[] {
+    return this.compressedMemories;
   }
 
   /**
@@ -447,6 +483,13 @@ export class MemoryManager {
   }
 
   /**
+   * Get style vector for agent
+   */
+  getStyleVector(agentId: string) {
+    return this.compressor.getStyleVector(agentId);
+  }
+
+  /**
    * Get memory statistics
    */
   getStats() {
@@ -464,12 +507,17 @@ export class MemoryManager {
     const totalMotifs = Object.keys(motifs).length;
     const emergentMotifs = this.motifs.getEmergentMotifs().length;
     
+    const compressionStats = this.compressor.getCompressionStats();
+    
     return {
       totalMemories,
       memoryTypes,
       totalMotifs,
       emergentMotifs,
-      averageConfidence: this.memories.reduce((sum, m) => sum + m.confidence, 0) / totalMemories || 0
+      averageConfidence: this.memories.reduce((sum, m) => sum + m.confidence, 0) / totalMemories || 0,
+      compressionStats,
+      compressedMemoriesCount: this.compressedMemories.length,
+      compressionRatio: compressionStats.averageCompressionRatio
     };
   }
 
@@ -478,6 +526,8 @@ export class MemoryManager {
    */
   clear(): void {
     this.memories = [];
+    this.compressedMemories = [];
     this.motifs = new MotifTracker();
+    this.compressor.clear();
   }
 } 

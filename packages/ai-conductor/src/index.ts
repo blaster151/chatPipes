@@ -23,6 +23,9 @@ export { CooperativeMemoryManager, type CooperativeMemory, type MemoryReinjectio
 // Streamlined memory manager prototype
 export { MemoryManager, MotifTracker, type MemoryItem, type Motif } from './memory/MemoryManager';
 
+// Memory compression system
+export { MemoryCompressor, type CompressedMemory, type MemoryCompressionConfig } from './memory/MemoryCompressor';
+
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 
