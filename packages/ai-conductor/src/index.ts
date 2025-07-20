@@ -20,6 +20,9 @@ export { SharedMemoryManager, type SharedMemory, type CallbackTrigger, type Runn
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';
 
+// Surreal vibe management system
+export { SurrealVibeManager, type SurrealVibeConfig, type SurrealSeed, type VibeState, type SurrealInjection } from './surreal/SurrealVibeManager';
+
 // Core classes
 export { AgentSession } from './core/AgentSession';
 export { DialoguePipe } from './conversation/DialoguePipe';
