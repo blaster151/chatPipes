@@ -93,7 +93,7 @@ export interface MemoryInjection {
   participants: string[];
 }
 
-export class MemoryManager extends EventEmitter {
+export class SharedMemoryManager extends EventEmitter {
   private sharedMemories: Map<string, SharedMemory> = new Map();
   private callbackTriggers: Map<string, CallbackTrigger> = new Map();
   private runningJokes: Map<string, RunningJoke> = new Map();

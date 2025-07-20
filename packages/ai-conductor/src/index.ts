@@ -15,7 +15,7 @@ export { PersonalitySeedManager, type PersonalitySeed, type CoreTraits, type Bac
 export { PersonalityEvolution, type PersonalityState, type EmotionalState, type Experience, type PersonalityChange, type MoodEntry, type BehavioralPattern, type SelfReflection, type EvolutionEvent, type Interaction, type RelationshipEvent } from './personality/PersonalityEvolution';
 
 // Memory management system
-export { MemoryManager, type SharedMemory, type CallbackTrigger, type RunningJoke, type SharedTheme, type SurrealMoment, type MemoryConfig, type MemoryInjection } from './memory/MemoryManager';
+export { SharedMemoryManager, type SharedMemory, type CallbackTrigger, type RunningJoke, type SharedTheme, type SurrealMoment, type MemoryConfig, type MemoryInjection } from './memory/SharedMemoryManager';
 
 // Persona injection system
 export { PersonaInjector, type PersonaConfig, type PersonaInjection, type ConversationContext } from './persona/PersonaInjector';

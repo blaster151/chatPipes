@@ -1,5 +1,5 @@
 import { 
-  MemoryManager, 
+  SharedMemoryManager, 
   PersonaInjector,
   PersonalitySeedManager,
   PersonalityEvolution
@@ -11,7 +11,7 @@ import {
 async function quantumTeaRunningJokeExample() {
   console.log('🍵 Example 1: Creating the Quantum Tea Running Joke\n');
 
-  const memoryManager = new MemoryManager();
+  const memoryManager = new SharedMemoryManager();
   const personaInjector = new PersonaInjector(memoryManager);
 
   // Register personas for the agents

@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { PersonalitySeed, CoreTraits, EmotionalBaseline, SpeechPatterns } from '../personality/PersonalitySeed';
-import { MemoryManager, MemoryInjection } from '../memory/MemoryManager';
+import { SharedMemoryManager, MemoryInjection } from '../memory/SharedMemoryManager';
 import { AgentState, StyleVector } from '../simulation/types/DialogueTypes';
 
 export interface PersonaConfig {
@@ -41,15 +41,15 @@ export interface ConversationContext {
 
 export class PersonaInjector extends EventEmitter {
   private personaConfigs: Map<string, PersonaConfig> = new Map();
-  private memoryManager: MemoryManager;
+  private memoryManager: SharedMemoryManager;
   private injectionHistory: Map<string, PersonaInjection[]> = new Map();
   private conversationContexts: Map<string, ConversationContext> = new Map();
   private reinforcementCounters: Map<string, number> = new Map();
 
-  constructor(memoryManager?: MemoryManager) {
+  constructor(memoryManager?: SharedMemoryManager) {
     super();
     this.setMaxListeners(100);
-    this.memoryManager = memoryManager || new MemoryManager();
+    this.memoryManager = memoryManager || new SharedMemoryManager();
   }
 
   /**
