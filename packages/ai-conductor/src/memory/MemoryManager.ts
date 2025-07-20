@@ -539,42 +539,35 @@ export class MemoryManager {
   /**
    * Rehydrate from Firebase payload
    */
-  rehydrateFromFirebase(payload: SummaryPayload): void {
-    // Add summary facts as manual memory
-    if (payload.summaryFacts && payload.summaryFacts !== "No specific facts known.") {
-      this.addManualMemory(payload.summaryFacts, payload.agentId);
-    }
+  rehydrateFromFirebase(payload: Record<string, any>): void {
+    const { agentId, topMemories, motifHints } = payload;
 
-    // Add summary emotions as manual memory
-    if (payload.summaryEmotions && payload.summaryEmotions !== "No emotional state recorded.") {
-      this.addManualMemory(`Emotional state: ${payload.summaryEmotions}`, payload.agentId);
-    }
-
-    // Add top memories
-    payload.topMemories.forEach(memory => {
-      this.memories.push({
-        ...memory,
-        timestamp: memory.timestamp || Date.now(),
-        tags: [...(memory.tags || []), 'rehydrated']
-      });
-    });
-
-    // Inject motif hints
-    payload.motifHints.forEach(hint => {
-      const phrase = hint.split('"')[1]; // Extract phrase from hint
-      if (phrase) {
-        // Create a motif memory
-        this.addManualMemory(`Key motif: ${phrase}`, payload.agentId);
+    if (Array.isArray(topMemories)) {
+      for (const memory of topMemories) {
+        this.memories.push({
+          ...memory,
+          agentId: memory.agentId || agentId,
+          timestamp: memory.timestamp || Date.now(),
+        });
       }
-    });
-
-    // Update style vector if available
-    if (payload.styleVector) {
-      // The style vector will be updated through the compression system
-      console.log(`Style vector restored for ${payload.agentId}`);
     }
 
-    console.log(`✅ Rehydrated memory for ${payload.agentId} from Firebase payload`);
+    if (Array.isArray(motifHints)) {
+      const now = Date.now();
+      for (const phrase of motifHints) {
+        if (!this.motifs.getMotifs()[phrase]) {
+          const normalizedPhrase = this.normalizePhrase(phrase);
+          this.motifs.getMotifs()[normalizedPhrase] = {
+            phrase,
+            timesUsed: 2, // assume minimum threshold
+            firstSeen: now,
+            lastSeen: now,
+          };
+        }
+      }
+    }
+
+    console.log(`✅ Rehydrated memory for ${agentId} from Firebase payload`);
   }
 
   /**

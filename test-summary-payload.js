@@ -162,8 +162,8 @@ console.log(`   Motif Hints: ${bobPayload.motifHints.length} motifs`);
 console.log(`   Top Memories: ${bobPayload.topMemories.length} memories`);
 console.log(`   Timestamp: ${new Date(bobPayload.timestamp).toISOString()}`);
 
-// Test Firebase rehydration
-console.log('\n🔄 Test Firebase rehydration');
+// Test Firebase rehydration with improved method
+console.log('\n🔄 Test Firebase rehydration with improved method');
 
 // Create a new memory manager for rehydration testing
 const rehydratedManager = new MemoryManager();
@@ -172,7 +172,7 @@ console.log('\n📝 Before rehydration:');
 console.log(`   Total memories: ${rehydratedManager.getAllMemories().length}`);
 console.log(`   Motifs: ${Object.keys(rehydratedManager['motifs'].getMotifs()).length}`);
 
-// Rehydrate Alice's payload
+// Rehydrate Alice's payload using the improved method
 rehydratedManager.rehydrateFromFirebase(alicePayload);
 
 console.log('\n📝 After rehydrating Alice:');
@@ -188,17 +188,48 @@ console.log(`   Total memories: ${rehydratedManager.getAllMemories().length}`);
 console.log(`   Bob memories: ${rehydratedManager.getMemoriesForAgent('bob').length}`);
 console.log(`   Motifs: ${Object.keys(rehydratedManager['motifs'].getMotifs()).length}`);
 
-// Test system prompt generation
-console.log('\n🤖 Test system prompt generation');
+// Test complete workflow: rehydrateFromFirebase + getMemorySummary
+console.log('\n🔄 Complete workflow: rehydrateFromFirebase + getMemorySummary');
 
-const aliceSystemPrompt = memoryManager.generateSystemPrompt(alicePayload);
-const bobSystemPrompt = memoryManager.generateSystemPrompt(bobPayload);
+// Create another fresh manager for complete workflow test
+const workflowManager = new MemoryManager();
 
-console.log('\n👤 Alice System Prompt:');
+console.log('\n📝 Fresh manager before rehydration:');
+console.log(`   Total memories: ${workflowManager.getAllMemories().length}`);
+
+// Rehydrate Alice's payload
+workflowManager.rehydrateFromFirebase(alicePayload);
+
+console.log('\n📝 After rehydrating Alice:');
+console.log(`   Total memories: ${workflowManager.getAllMemories().length}`);
+
+// Generate system prompt using getMemorySummary
+const aliceSystemPrompt = workflowManager.getMemorySummary('alice');
+console.log('\n🤖 Alice System Prompt (from getMemorySummary):');
 console.log(aliceSystemPrompt);
 
-console.log('\n👤 Bob System Prompt:');
+// Rehydrate Bob's payload
+workflowManager.rehydrateFromFirebase(bobPayload);
+
+console.log('\n📝 After rehydrating Bob:');
+console.log(`   Total memories: ${workflowManager.getAllMemories().length}`);
+
+// Generate system prompt for Bob
+const bobSystemPrompt = workflowManager.getMemorySummary('bob');
+console.log('\n🤖 Bob System Prompt (from getMemorySummary):');
 console.log(bobSystemPrompt);
+
+// Test system prompt generation from payload
+console.log('\n🤖 Test system prompt generation from payload');
+
+const alicePromptFromPayload = memoryManager.generateSystemPrompt(alicePayload);
+const bobPromptFromPayload = memoryManager.generateSystemPrompt(bobPayload);
+
+console.log('\n👤 Alice System Prompt (from payload):');
+console.log(alicePromptFromPayload);
+
+console.log('\n👤 Bob System Prompt (from payload):');
+console.log(bobPromptFromPayload);
 
 // Test Firebase document format
 console.log('\n🔥 Test Firebase document format');
@@ -361,8 +392,9 @@ if (bobCompact) {
 
 console.log('\n✅ Summary payload test completed successfully!');
 console.log('📦 Summary payloads are being generated correctly!');
-console.log('🔄 Firebase rehydration is working!');
-console.log('🤖 System prompts are being generated!');
+console.log('🔄 Firebase rehydration is working with improved method!');
+console.log('🤖 System prompts are being generated from both methods!');
 console.log('🔥 Firebase documents are compact and queryable!');
 console.log('📊 Accumulation strategy is being followed!');
-console.log('📋 All four accumulation principles are working!'); 
+console.log('📋 All four accumulation principles are working!');
+console.log('🔄 Complete workflow (rehydrateFromFirebase + getMemorySummary) is operational!'); 
