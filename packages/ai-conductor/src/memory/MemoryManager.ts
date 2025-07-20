@@ -23,6 +23,17 @@ export interface Motif {
   relatedTo?: string[]; // other motif ids
 }
 
+export interface SummaryPayload {
+  agentId: string;
+  summaryFacts: string;
+  summaryEmotions: string;
+  motifHints: string[];
+  topMemories: MemoryItem[];
+  timestamp: number;
+  personaSummary?: string;
+  styleVector?: any;
+}
+
 export class MotifTracker {
   private motifs: Record<string, Motif> = {};
 
@@ -374,6 +385,234 @@ export class MemoryManager {
   }
 
   /**
+   * Generate summary payload for reseeding
+   */
+  generateSummaryPayload(agentId: string): SummaryPayload {
+    return {
+      agentId,
+      summaryFacts: this.summarizeFacts(agentId),
+      summaryEmotions: this.summarizeEmotions(agentId),
+      motifHints: this.getMotifHints(),
+      topMemories: this.getTopMemories(agentId, 10),
+      timestamp: Date.now(),
+      personaSummary: this.getPersonaSummary(agentId),
+      styleVector: this.getStyleVector(agentId)
+    };
+  }
+
+  /**
+   * Summarize facts for an agent
+   */
+  private summarizeFacts(agentId: string): string {
+    const facts = this.memories.filter(m => m.agentId === agentId && m.type === 'fact');
+    
+    if (facts.length === 0) {
+      return "No specific facts known.";
+    }
+
+    // Use compacted facts if available, otherwise summarize
+    const compactedFacts = facts.filter(f => f.tags?.includes('compacted'));
+    if (compactedFacts.length > 0) {
+      return compactedFacts[0].content;
+    }
+
+    // Summarize multiple facts
+    const factContents = facts.map(f => f.content);
+    return this.summarizeFactContents(factContents);
+  }
+
+  /**
+   * Summarize fact contents
+   */
+  private summarizeFactContents(factContents: string[]): string {
+    if (factContents.length === 0) return "";
+    if (factContents.length === 1) return factContents[0];
+
+    // Extract key information
+    const keyInfo: string[] = [];
+    
+    // Look for personal information
+    const personalInfo = factContents.filter(c => 
+      c.toLowerCase().includes('i am') || 
+      c.toLowerCase().includes('i\'m') || 
+      c.toLowerCase().includes('my name')
+    );
+    
+    if (personalInfo.length > 0) {
+      keyInfo.push(personalInfo[0]);
+    }
+    
+    // Look for work information
+    const workInfo = factContents.filter(c => 
+      c.toLowerCase().includes('work') || 
+      c.toLowerCase().includes('job') || 
+      c.toLowerCase().includes('profession')
+    );
+    
+    if (workInfo.length > 0) {
+      keyInfo.push(workInfo[0]);
+    }
+    
+    // Look for location information
+    const locationInfo = factContents.filter(c => 
+      c.toLowerCase().includes('live') || 
+      c.toLowerCase().includes('home') || 
+      c.toLowerCase().includes('city')
+    );
+    
+    if (locationInfo.length > 0) {
+      keyInfo.push(locationInfo[0]);
+    }
+    
+    // Add other unique information
+    const otherInfo = factContents.filter(c => 
+      !personalInfo.includes(c) && 
+      !workInfo.includes(c) && 
+      !locationInfo.includes(c)
+    );
+    
+    keyInfo.push(...otherInfo.slice(0, 2)); // Limit to 2 additional facts
+    
+    return keyInfo.join('. ');
+  }
+
+  /**
+   * Summarize emotions for an agent
+   */
+  private summarizeEmotions(agentId: string): string {
+    const emotions = this.memories.filter(m => m.agentId === agentId && m.type === 'emotion');
+    
+    if (emotions.length === 0) {
+      return "No emotional state recorded.";
+    }
+
+    // Calculate emotional summary
+    const positiveEmotions = emotions.filter(e => 
+      e.content.toLowerCase().includes('happy') || 
+      e.content.toLowerCase().includes('excited') || 
+      e.content.toLowerCase().includes('love') ||
+      e.content.toLowerCase().includes('enjoy')
+    );
+
+    const negativeEmotions = emotions.filter(e => 
+      e.content.toLowerCase().includes('sad') || 
+      e.content.toLowerCase().includes('worried') || 
+      e.content.toLowerCase().includes('hate') ||
+      e.content.toLowerCase().includes('suffer')
+    );
+
+    const curiousEmotions = emotions.filter(e => 
+      e.content.toLowerCase().includes('curious') || 
+      e.content.toLowerCase().includes('interested') ||
+      e.content.toLowerCase().includes('wonder')
+    );
+
+    if (positiveEmotions.length > negativeEmotions.length) {
+      return "Generally positive and enthusiastic about conversations.";
+    } else if (negativeEmotions.length > positiveEmotions.length) {
+      return "Tends toward negative or worried emotional states.";
+    } else if (curiousEmotions.length > 0) {
+      return "Curious and engaged in discussions.";
+    } else {
+      return "Neutral emotional baseline.";
+    }
+  }
+
+  /**
+   * Get persona summary for an agent
+   */
+  private getPersonaSummary(agentId: string): string {
+    const blob = this.capper.getMemoryBlob(agentId);
+    return blob?.personaSummary || "No persona summary available.";
+  }
+
+  /**
+   * Get top memories for an agent
+   */
+  getTopMemories(agentId: string, count: number = 10): MemoryItem[] {
+    return this.memories
+      .filter(m => !agentId || m.agentId === agentId)
+      .sort((a, b) => b.confidence - a.confidence)
+      .slice(0, count);
+  }
+
+  /**
+   * Rehydrate from Firebase payload
+   */
+  rehydrateFromFirebase(payload: SummaryPayload): void {
+    // Add summary facts as manual memory
+    if (payload.summaryFacts && payload.summaryFacts !== "No specific facts known.") {
+      this.addManualMemory(payload.summaryFacts, payload.agentId);
+    }
+
+    // Add summary emotions as manual memory
+    if (payload.summaryEmotions && payload.summaryEmotions !== "No emotional state recorded.") {
+      this.addManualMemory(`Emotional state: ${payload.summaryEmotions}`, payload.agentId);
+    }
+
+    // Add top memories
+    payload.topMemories.forEach(memory => {
+      this.memories.push({
+        ...memory,
+        timestamp: memory.timestamp || Date.now(),
+        tags: [...(memory.tags || []), 'rehydrated']
+      });
+    });
+
+    // Inject motif hints
+    payload.motifHints.forEach(hint => {
+      const phrase = hint.split('"')[1]; // Extract phrase from hint
+      if (phrase) {
+        // Create a motif memory
+        this.addManualMemory(`Key motif: ${phrase}`, payload.agentId);
+      }
+    });
+
+    // Update style vector if available
+    if (payload.styleVector) {
+      // The style vector will be updated through the compression system
+      console.log(`Style vector restored for ${payload.agentId}`);
+    }
+
+    console.log(`✅ Rehydrated memory for ${payload.agentId} from Firebase payload`);
+  }
+
+  /**
+   * Generate system prompt from summary payload
+   */
+  generateSystemPrompt(payload: SummaryPayload): string {
+    const parts: string[] = [];
+    
+    // Add persona summary
+    if (payload.personaSummary) {
+      parts.push(`Persona: ${payload.personaSummary}`);
+    }
+    
+    // Add key facts
+    if (payload.summaryFacts && payload.summaryFacts !== "No specific facts known.") {
+      parts.push(`Key facts: ${payload.summaryFacts}`);
+    }
+    
+    // Add emotional state
+    if (payload.summaryEmotions && payload.summaryEmotions !== "No emotional state recorded.") {
+      parts.push(`Emotional state: ${payload.summaryEmotions}`);
+    }
+    
+    // Add motif hints
+    if (payload.motifHints.length > 0) {
+      parts.push(`Key motifs to reference: ${payload.motifHints.slice(0, 3).join(', ')}`);
+    }
+    
+    // Add recent memories
+    if (payload.topMemories.length > 0) {
+      const recentMemories = payload.topMemories.slice(0, 3).map(m => m.content.substring(0, 30));
+      parts.push(`Recent important memories: ${recentMemories.join(', ')}`);
+    }
+    
+    return parts.join('. ') + '.';
+  }
+
+  /**
    * 1. Compaction function - Summarize facts and replace with single summary
    */
   compactFacts(agentId: string): void {
@@ -388,22 +627,8 @@ export class MemoryManager {
   /**
    * 2. Memory Importance Ranking
    */
-  getTopMemories(limit: number = 20): MemoryItem[] {
-    return MemoryUtils.getTopMemories(this.memories, limit);
-  }
-
-  /**
-   * Get top memories by type
-   */
   getTopMemoriesByType(type: MemoryItem['type'], limit: number = 10): MemoryItem[] {
     return MemoryUtils.getTopMemoriesByType(this.memories, type, limit);
-  }
-
-  /**
-   * Get top memories for specific agent
-   */
-  getTopMemoriesForAgent(agentId: string, limit: number = 15): MemoryItem[] {
-    return MemoryUtils.getTopMemoriesForAgent(this.memories, agentId, limit);
   }
 
   /**
